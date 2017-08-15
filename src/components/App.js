@@ -3,7 +3,7 @@ import './App.css';
 import * as API from '../utils/api';
 import {connect} from 'react-redux'
 import * as Actions from '../actions';
-import {Route} from 'react-router-dom';
+import {Route, Redirect} from 'react-router-dom';
 import MainPage from "./MainPage";
 import CategoryPage from "./CategoryPage";
 
@@ -22,7 +22,19 @@ class App extends Component {
         return (
             <div className="App">
                 <Route
-                    path="/r" render={() => (
+                    exact path="/r" render={() => (
+                    <Redirect to="/"/>
+                )}
+                />
+
+                <Route
+                    exact path="/r/:category/:something" render={() => (
+                    <Redirect to="/"/>
+                )}
+                />
+
+                <Route
+                    exact path="/r/:category" render={() => (
                     <CategoryPage posts={this.props.posts}/>
                 )}
                 />

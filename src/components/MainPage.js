@@ -6,7 +6,7 @@ import Categories from "./Categories";
 class MainPage extends Component {
     render() {
         return (
-            <div>
+            <div className="container">
                 <h1>Readable</h1>
                 <Categories categories={this.props.categories}/>
                 <Posts posts={this.props.posts}/>

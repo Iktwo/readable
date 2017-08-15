@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './App.css';
 import * as API from '../utils/api';
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import * as Actions from '../actions';
-import Categories from './Categories';
-import Posts from './Posts';
+import {Route} from 'react-router-dom';
+import MainPage from "./MainPage";
+import CategoryPage from "./CategoryPage";
 
 class App extends Component {
     componentDidMount() {
@@ -15,15 +16,22 @@ class App extends Component {
         API.fetchPosts().then((posts) => {
             this.props.updatePosts(posts);
         });
-
     }
 
     render() {
         return (
             <div className="App">
-                <h1>Readable</h1>
-                <Categories categories={this.props.categories}/>
-                <Posts posts={this.props.posts}/>
+                <Route
+                    path="/r" render={() => (
+                    <CategoryPage posts={this.props.posts}/>
+                )}
+                />
+
+                <Route
+                    exact path="/" render={() => (
+                    <MainPage categories={this.props.categories} posts={this.props.posts}/>
+                )}
+                />
             </div>
         );
     }
@@ -36,7 +44,7 @@ function mapStateToProps({categories, posts}) {
     }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
     return {
         updateCategories: (data) => dispatch(Actions.updateCategories(data)),
         updatePosts: (data) => dispatch(Actions.updatePosts(data))

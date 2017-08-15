@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../App.css';
+import './App.css';
 import * as API from '../utils/api';
 import { connect } from 'react-redux'
 import * as Actions from '../actions';
@@ -21,6 +21,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
+                <h1>Readable</h1>
                 <Categories categories={this.props.categories}/>
                 <Posts posts={this.props.posts}/>
             </div>

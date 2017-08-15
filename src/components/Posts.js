@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 class Posts extends Component {
@@ -12,9 +12,13 @@ class Posts extends Component {
 
     render() {
         return (
-            <ul className="categories-list">
-                {Posts.filterPosts(this.props.posts, this.props.displayDeleted || false).map((post) => (<li key={post.id}>{post.title}</li>))}
-            </ul>
+            <div className="collection">
+                {
+                    Posts.filterPosts(this.props.posts, this.props.displayDeleted || false).map((post) => (
+                        <a key={post.id} href="#!" className="collection-item">{post.title}</a>
+                    ))
+                }
+            </div>
         );
     }
 }

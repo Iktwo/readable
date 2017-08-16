@@ -1,16 +1,33 @@
-export const UPDATE_CATEGORIES = 'UPDATE_CATEGORIES';
-export const UPDATE_POSTS = 'UPDATE_POSTS';
+export const CATEGORIES_UPDATE = 'CATEGORIES_UPDATE';
+export const POSTS_UPDATE = 'POSTS_UPDATE';
+export const POSTS_VOTE = 'POSTS_VOTE';
+export const POSTS_DELETE = 'POSTS_DELETE';
 
 export function updateCategories(categories) {
     return {
-        type: UPDATE_CATEGORIES,
+        type: CATEGORIES_UPDATE,
         categories
     }
 }
 
 export function updatePosts(posts) {
     return {
-        type: UPDATE_POSTS,
+        type: POSTS_UPDATE,
         posts
+    }
+}
+
+export function votePost(vote, postId) {
+    return {
+        type: POSTS_VOTE,
+        vote,
+        postId
+    }
+}
+
+export function deletePost(postId) {
+    return {
+        type: POSTS_DELETE,
+        postId
     }
 }

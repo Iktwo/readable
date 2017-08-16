@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import * as API from '../utils/api';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import * as Actions from '../actions';
-import {Route, Redirect} from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import MainPage from "./MainPage";
 import CategoryPage from "./CategoryPage";
 

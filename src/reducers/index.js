@@ -4,8 +4,8 @@ import * as Actions from '../actions'
 
 function categories(state = {categories: []}, action) {
     switch (action.type) {
-        case Actions.UPDATE_CATEGORIES:
-            const { categories } = action;
+        case Actions.CATEGORIES_UPDATE:
+            const {categories} = action;
 
             return {
                 ...state,
@@ -19,12 +19,31 @@ function categories(state = {categories: []}, action) {
 
 function posts(state = {posts: []}, action) {
     switch (action.type) {
-        case Actions.UPDATE_POSTS:
-            const { posts } = action;
+        case Actions.POSTS_UPDATE:
+            const {posts} = action;
 
             return {
                 ...state,
                 posts
+            };
+
+        case Actions.POSTS_DELETE:
+            const {postId} = action;
+
+            return {
+                ...state,
+                posts: state.posts.map((post) => {
+                    if (post.id === postId) {
+                        post.deleted = true;
+                    }
+
+                    return post;
+                })
+            };
+
+        case Actions.POSTS_VOTE:
+            return {
+                ...state
             };
 
         default:

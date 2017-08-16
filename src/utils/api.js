@@ -6,8 +6,8 @@ const headers = new Headers({
     Authorization
 });
 
-export function fetchCategories () {
-    return fetch(`${ENDPOINT}/categories`, { method: 'GET', headers })
+export function fetchCategories() {
+    return fetch(`${ENDPOINT}/categories`, {method: 'GET', headers})
         .then((res) => res.json())
         .catch((e) => {
             console.log("Error:", e)
@@ -16,7 +16,7 @@ export function fetchCategories () {
 }
 
 export function fetchPosts() {
-    return fetch(`${ENDPOINT}/posts`, { method: 'GET', headers })
+    return fetch(`${ENDPOINT}/posts`, {method: 'GET', headers})
         .then((res) => res.json())
         .catch((e) => {
             console.log("Error:", e)

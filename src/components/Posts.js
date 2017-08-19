@@ -49,7 +49,6 @@ class Posts extends Component {
                                         }
 
 
-
                                     </h6>
                                 </div>
                             </div>

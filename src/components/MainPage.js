@@ -7,7 +7,7 @@ class MainPage extends Component {
     render() {
         return (
             <div className="container">
-                <h1>Readable</h1>
+                <img src="/logo.svg" className="mx-auto mb-2" alt="logo" style={{display: 'block', width: 64}}/>
                 <Categories categories={this.props.categories}/>
                 <Posts posts={this.props.posts} displayCategory={true}/>
             </div>

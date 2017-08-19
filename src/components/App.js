@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import * as API from '../utils/api';
 import { connect } from 'react-redux'
 import * as Actions from '../actions';

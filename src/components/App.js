@@ -3,8 +3,8 @@ import * as API from '../utils/api';
 import { connect } from 'react-redux'
 import * as Actions from '../actions';
 import { Redirect, Route } from 'react-router-dom';
-import MainPage from "./MainPage";
-import CategoryPage from "./CategoryPage";
+import MainPage from "./pages/MainPage";
+import CategoryPage from "./pages/CategoryPage";
 
 class App extends Component {
     componentDidMount() {
@@ -20,26 +20,22 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Route
-                    exact path="/r" render={() => (
+                <Route exact path="/r" render={() => (
                     <Redirect to="/"/>
                 )}
                 />
 
-                <Route
-                    exact path="/r/:category/:something" render={() => (
+                <Route exact path="/r/:category/:something" render={() => (
                     <Redirect to="/"/>
                 )}
                 />
 
-                <Route
-                    exact path="/r/:category" render={() => (
+                <Route exact path="/r/:category" render={() => (
                     <CategoryPage posts={this.props.posts}/>
                 )}
                 />
 
-                <Route
-                    exact path="/" render={() => (
+                <Route exact path="/" render={() => (
                     <MainPage categories={this.props.categories} posts={this.props.posts}/>
                 )}
                 />

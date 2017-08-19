@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Posts from "./Posts";
+import Posts from "../Posts";
 import { withRouter } from 'react-router-dom';
-import HeaderNav from "./HeaderNav";
+import HeaderNav from "../HeaderNav";
 import { connect } from 'react-redux';
 
 const CategoryPageWithRouter = withRouter(props => <CategoryPage {...props}/>);
@@ -15,7 +15,7 @@ class CategoryPage extends Component {
             <div>
                 <HeaderNav title={category} menus={[{name: 'add', path: '/'}]}/>
                 <div className="container">
-                    <Posts posts={this.props.posts.filter((post) => {
+                    <Posts displayCategory={false} posts={this.props.posts.filter((post) => {
                         return post.category === category
                     })}/>
                 </div>

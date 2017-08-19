@@ -12,10 +12,11 @@ class Categories extends Component {
             const dataIndex = i - parseInt((i + 1) / (ROW_ELEMENTS + 1), 10);
             const data = arrayData[dataIndex];
 
-            return (((i + 1) % (ROW_ELEMENTS + 1)) === 0) ? (<div key={i} className="w-100 hidden-xs-down hidden-md-up"/>) :
+            return (((i + 1) % (ROW_ELEMENTS + 1)) === 0) ?
+                (<div key={i} className="w-100 hidden-xs-down hidden-md-up"/>) :
 
                 (<div className="card mb-4" key={i}>
-                    <a key={data.name + data.path} href={`/r/${data.path}`}>
+                    <a style={{...Styles.mainText}} key={data.name + data.path} href={`/r/${data.path}`}>
                         <img className="card-img-top" src={`https://iktwo.com/images/${data.name}.jpg`}
                              alt="Category icon"/>
                         <div className="card-body">

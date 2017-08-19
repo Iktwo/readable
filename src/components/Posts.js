@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import * as Styles from "../utils/styles";
 
 class Posts extends Component {
     static filterPosts(posts, displayDeleted) {
@@ -11,43 +12,50 @@ class Posts extends Component {
     }
 
     render() {
+        const { posts, displayDeleted, displayCategory} = this.props;
 
-        let a = new Array(5)
         return (
-            <div className="collection">
+            <div className="list-group mt-2">
                 {
-                    Posts.filterPosts(this.props.posts, this.props.displayDeleted || false).map((post) => (
+                    Posts.filterPosts(posts, displayDeleted || false).map((post) => (
 
-                        <div key={post.id} className="collection-item">
+                        <div key={post.id} className="list-group-item">
 
                             <div className="row valign-wrapper">
-                                <div className="col s4 m2">
-                                    <a className="s12" href="#!"><i
-                                        className="material-icons blue-grey-text text-lighten-1">arrow_drop_up</i></a>
-                                    <p className="s12">{post.voteScore}</p>
-                                    <a className="s12" href="#!"><i
-                                        className="material-icons blue-grey-text text-lighten-1">arrow_drop_down</i></a>
+                                <div
+                                    className="col-sm-4 col-md-2 d-flex flex-column  text-truncate">
+                                    <a style={{...Styles.mainText}} className="d-flex align-self-center"
+                                       href="#up">
+                                        <i className="material-icons">keyboard_arrow_up</i>
+                                    </a>
+                                    <p className="mb-0 text-truncate"
+                                       style={{...Styles.mainText, ...Styles.centeredText}}>{post.voteScore}</p>
+                                    <a style={{...Styles.mainText, ...Styles.noDecorationText}} className="d-flex align-self-center" href="#down">
+                                        <i className="material-icons">keyboard_arrow_down</i>
+                                    </a>
                                 </div>
 
-                                <img src="http://via.placeholder.com/150x150" alt=""
-                                     className="col m2 hide-on-small-only circle"
-                                     style={{width: 64, height: 64, padding: 5}}/>
-
-                                <div className="col s8">
+                                <div className="col s8" style={{...Styles.mainText}}>
                                     <h5>
-                                        <a className={`row truncate left-align blue-grey-text text-lighten-1`}
+                                        <a style={{...Styles.mainText}}
+                                           className={`row truncate left-align blue-grey-text text-lighten-1`}
                                            href="#!">
                                             {post.title}
                                         </a>
                                     </h5>
                                     <h6 className="row truncate left-align">
-
                                         {
-                                            new Array(5).map((e) => {
-                                                return (<a href="#!">post.author</a>)
-                                            })
+                                            displayCategory ?
+                                                (<span>By
+                                            <a href="#!">{` ${post.author} `}</a>
+                                            at
+                                            <a href={`/r/${post.category}`}
+                                               style={{...Styles.capitalize}}>{` ${post.category}`}</a>
+                                        </span>) :
+                                                (<span>By
+                                            <a href="#!">{` ${post.author}`}</a>
+                                        </span>)
                                         }
-
 
                                     </h6>
                                 </div>

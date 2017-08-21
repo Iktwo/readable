@@ -22,3 +22,19 @@ export function fetchPosts() {
             console.log("Error:", e)
         })
 }
+
+export function votePost(postId, vote) {
+    return fetch(`${ENDPOINT}/posts/${postId}`, {
+        method: 'POST',
+        headers: new Headers({
+            Authorization,
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        }),
+        body: JSON.stringify({option: vote ? 'upVote' : 'downVote'})
+    })
+        .then((res) => res.json())
+        .catch((e) => {
+            console.log("Error:", e)
+        })
+}

@@ -11,7 +11,3 @@ export const mainText = {
 export const centeredText = {
     textAlign: 'center'
 };
-
-export const noDecorationText = {
-    textDecoration: 'none'
-};

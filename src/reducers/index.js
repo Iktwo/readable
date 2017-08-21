@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-
 import * as Actions from '../actions'
+import * as Constants from "../utils/constants";
 
 function categories(state = {categories: []}, action) {
     switch (action.type) {
@@ -17,34 +17,55 @@ function categories(state = {categories: []}, action) {
     }
 }
 
-function posts(state = {posts: []}, action) {
+function posts(state = {posts: [], sortMode: Constants.SORT_BY_SCORE}, action) {
     switch (action.type) {
-        case Actions.POSTS_UPDATE:
+        case Actions.POSTS_UPDATE: {
             const {posts} = action;
 
             return {
                 ...state,
                 posts
             };
+        }
 
-        case Actions.POSTS_DELETE:
-            const {postId} = action;
+        case Actions.POSTS_DELETE: {
+            const {id} = action;
 
             return {
                 ...state,
                 posts: state.posts.map((post) => {
-                    if (post.id === postId) {
+                    if (post.id === id) {
                         post.deleted = true;
                     }
 
                     return post;
                 })
             };
+        }
 
-        case Actions.POSTS_VOTE:
+        case Actions.POSTS_VOTE: {
+            const {id, votes} = action;
+
             return {
-                ...state
+                ...state,
+                posts: state.posts.map((post) => {
+                    if (post.id === id) {
+                        post.voteScore = votes;
+                    }
+
+                    return post;
+                })
             };
+        }
+
+        case Actions.POSTS_SORT: {
+            const {sortMode} = action;
+
+            return {
+                ...state,
+                sortMode
+            };
+        }
 
         default:
             return state;

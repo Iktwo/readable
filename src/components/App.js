@@ -5,6 +5,7 @@ import * as Actions from '../actions';
 import { Redirect, Route } from 'react-router-dom';
 import MainPage from "./pages/MainPage";
 import CategoryPage from "./pages/CategoryPage";
+import NewPostPage from "./pages/NewPostPage";
 
 class App extends Component {
     componentDidMount() {
@@ -27,6 +28,16 @@ class App extends Component {
 
                 <Route exact path="/r/:category/:something" render={() => (
                     <Redirect to="/"/>
+                )}
+                />
+
+                <Route exact path="/newpost/" render={() => (
+                    <NewPostPage categories={this.props.categories}/>
+                )}
+                />
+
+                <Route exact path="/newpost/:category" render={() => (
+                    <NewPostPage categories={this.props.categories}/>
                 )}
                 />
 

@@ -13,7 +13,7 @@ class CategoryPage extends Component {
 
         return (
             <div>
-                <HeaderNav title={category} menus={[{name: 'add', path: '/'}]}/>
+                <HeaderNav title={category} menus={[{name: 'add', path: `/newpost/${category}`}]}/>
                 <div className="container">
                     <Posts displayCategory={false} posts={this.props.posts.filter((post) => {
                         return post.category === category
@@ -36,4 +36,3 @@ CategoryPage.propTypes = {
 };
 
 export default connect(mapStateToProps, null)(CategoryPageWithRouter);
-// TODO: Fix add link

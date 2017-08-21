@@ -47,7 +47,7 @@ class HeaderNav extends Component {
 
 HeaderNav.propTypes = {
     title: PropTypes.string.isRequired,
-    menus: PropTypes.array.isRequired
+    menus: PropTypes.array
 };
 
 

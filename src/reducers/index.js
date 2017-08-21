@@ -67,6 +67,24 @@ function posts(state = {posts: [], sortMode: Constants.SORT_BY_SCORE}, action) {
             };
         }
 
+        case Actions.POSTS_ADD: {
+            const {post} = action;
+
+            return {
+                ...state,
+                posts: state.posts.concat(post)
+            };
+        }
+
+        case Actions.POSTS_FORM_REDIRECT: {
+            const {enabled} = action;
+
+            return {
+                ...state,
+                redirectPostsForm: enabled
+            };
+        }
+
         default:
             return state;
     }

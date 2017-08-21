@@ -38,3 +38,19 @@ export function votePost(postId, vote) {
             console.log("Error:", e)
         })
 }
+
+export function addPost(post) {
+    return fetch(`${ENDPOINT}/posts/`, {
+        method: 'POST',
+        headers: new Headers({
+            Authorization,
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        }),
+        body: JSON.stringify(post)
+    })
+        .then((res) => res.json())
+        .catch((e) => {
+            console.log("Error:", e)
+        })
+}

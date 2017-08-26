@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import * as API from '../utils/api';
 import { connect } from 'react-redux'
 import * as Actions from '../actions';
-import { Redirect, Route } from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import MainPage from "./pages/MainPage";
 import CategoryPage from "./pages/CategoryPage";
 import NewPostPage from "./pages/NewPostPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 class App extends Component {
     componentDidMount() {
@@ -21,35 +22,35 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Route exact path="/r" render={() => (
-                    <Redirect to="/"/>
-                )}
-                />
+                <Switch>
+                    <Route exact path="/" component={() => (
+                        <MainPage categories={this.props.categories} posts={this.props.posts}/>
+                    )}
+                    />
 
-                <Route exact path="/r/:category/:something" render={() => (
-                    <Redirect to="/"/>
-                )}
-                />
+                    <Route exact path="/r" render={() => (
+                        <Redirect to="/"/>
+                    )}
+                    />
 
-                <Route exact path="/newpost/" render={() => (
-                    <NewPostPage categories={this.props.categories}/>
-                )}
-                />
+                    <Route exact path="/r/:category" render={() => (
+                        <CategoryPage posts={this.props.posts}/>
+                    )}
+                    />
 
-                <Route exact path="/newpost/:category" render={() => (
-                    <NewPostPage categories={this.props.categories}/>
-                )}
-                />
+                    <Route exact path="/newpost/" render={() => (
+                        <NewPostPage categories={this.props.categories}/>
+                    )}
+                    />
 
-                <Route exact path="/r/:category" render={() => (
-                    <CategoryPage posts={this.props.posts}/>
-                )}
-                />
+                    <Route exact path="/newpost/:category" render={() => (
+                        <NewPostPage categories={this.props.categories}/>
+                    )}
+                    />
 
-                <Route exact path="/" render={() => (
-                    <MainPage categories={this.props.categories} posts={this.props.posts}/>
-                )}
-                />
+                    <Route component={NotFoundPage} />
+
+                </Switch>
             </div>
         );
     }

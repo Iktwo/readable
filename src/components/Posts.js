@@ -8,10 +8,10 @@ import * as Constants from "../utils/constants";
 
 class Posts extends Component {
     static filterPosts(posts, displayDeleted) {
-        if (!displayDeleted) {
+        if (!displayDeleted && posts) {
             return posts.filter((post) => (!post.deleted));
         } else {
-            return posts;
+            return posts || [];
         }
     }
 

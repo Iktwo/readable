@@ -6,7 +6,7 @@ import * as Actions from "../../actions";
 import * as API from "../../utils/api";
 import * as UUIDV1 from 'uuid/v1';
 
-class NewPostPage extends Component {
+class EditPostPage extends Component {
     submitForm = (e) => {
         e.preventDefault();
 
@@ -100,4 +100,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewPostPage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditPostPage));

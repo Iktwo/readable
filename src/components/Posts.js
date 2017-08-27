@@ -90,18 +90,17 @@ class Posts extends Component {
                                         <h5>
                                             <a style={{...Styles.mainText}}
                                                className={`row truncate left-align blue-grey-text text-lighten-1`}
-                                               href="#!">
+                                               href={"/post/" + post.id}>
                                                 {post.title}
                                             </a>
                                         </h5>
                                         <h6 className="row truncate left-align">
                                             {
                                                 displayCategory ?
-                                                    (
-                                                        <span>By<a href="#!">{` ${post.author} `}</a>at
-                                                <a href={`/r/${post.category}`}
-                                                   style={{...Styles.capitalize}}>{` ${post.category}`}</a>
-                                        </span>) :
+                                                    (<span>By<a href="#!">{` ${post.author} `}</a>at
+                                                    <a href={`/r/${post.category}`}
+                                                       style={{...Styles.capitalize}}>{` ${post.category}`}</a>
+                                                    </span>) :
                                                     (<span>By
                                             <a href="#!">{` ${post.author}`}</a>
                                         </span>)

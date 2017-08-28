@@ -89,13 +89,14 @@ class EditPostPage extends Component {
 
 function mapStateToProps({posts}) {
     return {
-        redirectPostsForm: posts.redirectPostsForm
+        redirectPostsForm: posts.redirectPostsForm,
+        posts: posts.posts
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        addPost: (post) => dispatch(Actions.addPost(post)),
+        editPost: (post) => dispatch(Actions.editPost(post)),
         postFormRedirect: (enabled) => dispatch(Actions.postFormRedirect(enabled))
     }
 }

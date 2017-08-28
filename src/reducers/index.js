@@ -85,6 +85,22 @@ function posts(state = {posts: [], sortMode: Constants.SORT_BY_SCORE}, action) {
             };
         }
 
+        case Actions.COMMENTS_UPDATE: {
+            const {comments, postId} = action;
+            console.log(comments, postId)
+
+            return {
+                ...state,
+                posts: state.posts.map((post) => {
+                    if (post.id === postId) {
+                        post.comments = comments;
+                    }
+
+                    return post;
+                })
+            };
+        }
+
         default:
             return state;
     }

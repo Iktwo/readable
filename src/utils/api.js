@@ -23,6 +23,18 @@ export function fetchPosts() {
         })
 }
 
+export function fetchComments(id) {
+    if (id) {
+        return fetch(`${ENDPOINT}/posts/${id}/comments`, {method: 'GET', headers})
+            .then((res) => res.json())
+            .catch((e) => {
+                console.log("Error:", e)
+            })
+    } else {
+        console.error("id can't be null")
+    }
+}
+
 export function votePost(postId, vote) {
     return fetch(`${ENDPOINT}/posts/${postId}`, {
         method: 'POST',

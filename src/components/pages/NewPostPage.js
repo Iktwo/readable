@@ -4,24 +4,25 @@ import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import * as Actions from "../../actions";
 import PostsForm from "../PostsForm";
+import * as API from "../../utils/api";
+import * as UUIDV1 from 'uuid/v1';
 
 class NewPostPage extends Component {
     submitForm = (e) => {
         e.preventDefault();
 
         /// TODO: add some error handling
-        // API.addPost({
-        //     id: UUIDV1(),
-        //     timestamp: new Date().getTime(),
-        //     title: this.title.value,
-        //     content: this.content.value,
-        //     author: this.author.value || 'Anon',
-        //     category: this.category.value
-        // }).then((post) => {
-        //     this.props.addPost(post);
-        //     this.props.postFormRedirect(true);
-        // });
-        this.props.postFormRedirect(true);
+        API.addPost({
+            id: UUIDV1(),
+            timestamp: new Date().getTime(),
+            title: this.title.value,
+            content: this.content.value,
+            author: this.author.value || 'Anon',
+            category: this.category.value
+        }).then((post) => {
+            this.props.addPost(post);
+            this.props.postFormRedirect(true);
+        });
     };
 
     constructor(props) {

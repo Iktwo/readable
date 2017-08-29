@@ -1,103 +1,83 @@
 import React, { Component } from 'react';
 import HeaderNav from "../HeaderNav";
 import { connect } from 'react-redux';
-import { Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import * as Actions from "../../actions";
+import PostsForm from "../PostsForm";
 import * as API from "../../utils/api";
-import * as UUIDV1 from 'uuid/v1';
 
 class EditPostPage extends Component {
-    submitForm = (e) => {
-        e.preventDefault();
+    submitForm = (data) => {
+        const {id} = this.props.match.params;
+        const {posts} = this.props;
 
-        /// TODO: add some error handling
-        API.addPost({
-            id: UUIDV1(),
-            timestamp: new Date().getTime(),
-            title: this.title.value,
-            content: this.content.value,
-            author: this.author.value || 'Anon',
-            category: this.category.value
-        }).then((post) => {
-            this.props.addPost(post);
-            this.props.postFormRedirect(true);
+        let post = posts.filter((p) => {
+            return p.id === id
         });
-        // this.props.history.push("/post/1");
+
+        if (post.length === 1) {
+            post = post[0];
+        } else {
+            post = null;
+        }
+
+        if (post) {
+            API.editPost(post.id, {
+                title: data.title,
+                body: data.body
+            }).then((post) => {
+                this.props.editPost(post);
+                this.props.history.push(`/post/${post.id}`)
+            }).catch((e) => {
+                console.error("Error editing post: ", e)
+            });
+        }
     };
 
-    constructor(props) {
-        super(props);
-
-        this.props.postFormRedirect(false);
-    }
-
     render() {
-        // console.log("THIS PROPS", this.props)
-        const {category} = this.props.match.params;
-        const {categories} = this.props;
+        const {id} = this.props.match.params;
+        const {categories, posts} = this.props;
+
+        let post = posts.filter((p) => {
+            return p.id === id
+        });
+
+        if (post.length === 1) {
+            post = post[0];
+        } else {
+            post = null;
+        }
 
         return (
             <div>
-                {
-                    (this.props.redirectPostsForm) ?
-                        (<Redirect to={'/post/1'}/>) :
-                        (<div>
-                            <HeaderNav
-                                title={category && category !== '' ? `New post for ${category}` : `New post`}/>
-                            <div className="container mt-2">
-                                <form onSubmit={(e) => {
-                                    this.submitForm(e)
-                                }}>
-                                    <div className="form-group">
-                                        <label htmlFor="title">Title</label>
-                                        <input type="text" className="form-control" id="title" placeholder="Title"
-                                               required
-                                               ref={(title) => this.title = title}/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="body">Content</label>
-                                        <textarea type="text" className="form-control" id="body"
-                                                  placeholder="Content" rows={3}
-                                                  required
-                                                  ref={(content) => this.content = content}/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="author">Author</label>
-                                        <input type="text" className="form-control" id="author" placeholder="Author"
-                                               ref={(author) => this.author = author}/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="category">Category</label>
-                                        <select className="form-control" id="category"
-                                                ref={(category) => this.category = category}>
-                                            {categories && categories.map((c) => {
-                                                return (c.name === category) ?
-                                                    (<option key={c.name} selected='selected'>{c.name}</option>) :
-                                                    (<option key={c.name}>{c.name}</option>)
-                                            })}
-                                        </select>
-                                    </div>
-                                    <button type="submit" className="btn btn-primary">Submit</button>
-                                </form>
-                            </div>
-                        </div>)
-                }
+                <HeaderNav title="Editing post"/>
+
+                {(post) ? (
+                    <div className="container mt-2">
+                        <PostsForm category={post.category} categories={categories}
+                                   initialData={post}
+                                   onSubmitForm={(data) => {
+                                       this.submitForm(data)
+                                   }}
+                        />
+                    </div>
+                ) : (<div/>)}
             </div>
         );
     }
 }
 
-function mapStateToProps({posts}) {
+function mapStateToProps({posts, categories}) {
     return {
-        redirectPostsForm: posts.redirectPostsForm,
-        posts: posts.posts
+        posts: posts.posts,
+        categories: categories.categories
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
+        addPost: (post) => dispatch(Actions.addPost(post)),
         editPost: (post) => dispatch(Actions.editPost(post)),
-        postFormRedirect: (enabled) => dispatch(Actions.postFormRedirect(enabled))
     }
 }
 

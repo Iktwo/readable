@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import * as API from '../utils/api';
 import { connect } from 'react-redux'
 import * as Actions from '../actions';
-import {Redirect, Route, Switch} from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import MainPage from "./pages/MainPage";
 import CategoryPage from "./pages/CategoryPage";
 import NewPostPage from "./pages/NewPostPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import PostPage from "./pages/PostPage";
 import EditPostPage from "./pages/EditPostPage";
+import EditCommentPage from './pages/EditCommentPage';
 
 class App extends Component {
     componentDidMount() {
@@ -40,18 +41,23 @@ class App extends Component {
                     )}
                     />
 
-                    <Route exact path="/post/:id" component={(routeProps) => (
-                        <PostPage {...routeProps}/>
+                    <Route exact path="/post/:id" component={() => (
+                        <PostPage/>
                     )}
                     />
 
-                    <Route exact path="/editpost/:id" component={(routeProps) => (
-                        <EditPostPage {...routeProps}/>
+                    <Route exact path="/editpost/:id" component={() => (
+                        <EditPostPage/>
                     )}
                     />
 
-                    <Route exact path="/newpost/" render={(routeProps) => (
-                        <NewPostPage categories={this.props.categories} {...routeProps}/>
+                    <Route exact path="/editcomment/:id" component={() => (
+                        <EditCommentPage/>
+                    )}
+                    />
+
+                    <Route exact path="/newpost/" render={() => (
+                        <NewPostPage categories={this.props.categories}/>
                     )}
                     />
 
@@ -60,7 +66,7 @@ class App extends Component {
                     )}
                     />
 
-                    <Route component={NotFoundPage} />
+                    <Route component={NotFoundPage}/>
 
                 </Switch>
             </div>

@@ -6,7 +6,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { applyMiddleware, compose, createStore } from 'redux'
 import reducer from './reducers'
 import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, withRouter } from 'react-router-dom';
 
 const logger = store => next => action => {
     console.group(action.type);
@@ -26,10 +26,12 @@ const store = createStore(
     )
 );
 
+const NonBlockApp = withRouter(App);
+
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <App/>
+            <NonBlockApp/>
         </BrowserRouter>
     </Provider>
     , document.getElementById('root'));

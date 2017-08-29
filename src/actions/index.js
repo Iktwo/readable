@@ -5,9 +5,11 @@ export const POSTS_DELETE = 'POSTS_DELETE';
 export const POSTS_SORT = 'POSTS_SORT';
 export const POSTS_ADD = 'POSTS_ADD';
 export const POSTS_EDIT = 'POSTS_EDIT';
-export const POSTS_FORM_REDIRECT = 'POSTS_FORM_REDIRECT';
 export const COMMENTS_UPDATE = 'COMMENTS_UPDATE';
 export const COMMENTS_SORT = 'COMMENTS_SORT';
+export const COMMENTS_VOTE = 'COMMENTS_VOTE';
+export const COMMENTS_DELETE = 'COMMENTS_DELETE';
+export const COMMENTS_EDIT = 'COMMENTS_EDIT';
 
 export function updateCategories(categories) {
     return {
@@ -39,10 +41,27 @@ export function votePost(id, votes) {
     }
 }
 
+export function voteComment(id, votes, postId) {
+    return {
+        type: COMMENTS_VOTE,
+        votes,
+        id,
+        postId
+    }
+}
+
 export function deletePost(id) {
     return {
         type: POSTS_DELETE,
         id
+    }
+}
+
+export function deleteComment(id, parentId) {
+    return {
+        type: COMMENTS_DELETE,
+        id,
+        parentId
     }
 }
 
@@ -74,9 +93,9 @@ export function editPost(post) {
     }
 }
 
-export function postFormRedirect(enabled) {
+export function editComment(comment) {
     return {
-        type: POSTS_FORM_REDIRECT,
-        enabled
+        type: COMMENTS_EDIT,
+        comment
     }
 }

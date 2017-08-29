@@ -8,9 +8,23 @@ import * as Actions from "../../actions";
 import * as API from "../../utils/api";
 import Comments from "../Comments";
 import * as constants from "../../utils/constants";
+import * as UUIDV1 from 'uuid/v1';
 
 class PostPage extends Component {
-    componentWillMount() {
+    submitForm = (data, postId) => {
+        /// TODO: add some error handling
+        API.addComment({
+            id: UUIDV1(),
+            timestamp: new Date().getTime(),
+            body: data.body,
+            author: data.author,
+            parentId: postId
+        }).then((post) => {
+            this.props.addPost(post);
+        });
+    };
+
+    componentDidMount() {
         const {posts} = this.props;
 
         const {id} = this.props.match.params;
@@ -26,16 +40,14 @@ class PostPage extends Component {
         }
 
         if (post) {
-            // API.fetchComments(post.id).then((comments) => {
-            //     if (comments !== post.comments) {
-            //         this.props.updateComments(comments, post.id);
-            //     }
-            // });
+            API.fetchComments(post.id).then((comments) => {
+                this.props.updateComments(comments, post.id);
+            });
         }
     }
 
     render() {
-        const {posts} = this.props;
+        const {posts, sortComments, comments} = this.props;
 
         const {id} = this.props.match.params;
 
@@ -105,16 +117,70 @@ class PostPage extends Component {
                     </div>
 
                     <div className="col mt-2" style={{...Styles.mainText, ...Styles.centeredText}}>
-                        <a className="btn btn-warning" href={`/newpost/`}>
+                        <a className="btn btn-warning" href={`/editpost/${post.id}`}>
                             Edit
                         </a>
-                        <a className="btn btn-danger ml-2" href={`/newpost/`}>
+                        <a className="btn btn-danger ml-2" href={`#delete`} onClick={() => {
+                            API.deletePost(post.id).then(() => {
+                                this.props.deletePost(post.id);
+                                this.props.history.push(`/r/${post.category}`)
+                            });
+
+                            return false;
+                        }}>
                             Delete
                         </a>
                     </div>
 
-                    <Comments comments={post.comments || []}
-                              sortMode={this.props.commentsSortMode || constants.SORT_BY_SCORE}/>
+                    <Comments comments={comments[post.id] || []}
+                              sortMode={this.props.commentsSortMode || constants.SORT_BY_SCORE}
+
+                              upVoteComment={
+                                  (commentId) => {
+                                      API.voteComment(commentId, true).then((comment) => {
+                                          this.props.voteComment(comment.id, comment.voteScore, post.id);
+                                      });
+
+                                      return false
+                                  }
+                              }
+
+                              downVoteComment={
+                                  (commentId) => {
+                                      API.voteComment(commentId, false).then((comment) => {
+                                          this.props.voteComment(comment.id, comment.voteScore, post.id);
+                                      });
+
+                                      return false
+                                  }
+                              }
+
+                              sortComments={(sortBy) => {
+                                  sortComments(sortBy)
+                              }}
+
+                              onSubmitForm={(e) => {
+                                  this.submitForm(e, post.id)
+                              }}
+
+                              editComment={
+                                  (comment) => {
+                                      this.props.history.push(`/editcomment/${comment.id}`)
+                                  }
+                              }
+
+                              deleteComment={
+                                  (comment) => {
+                                      API.deleteComment(comment.id)
+                                          .then(() => {
+                                              this.props.deleteComment(comment.id, comment.parentId)
+                                          })
+                                          .catch((e) => {
+                                              console.error(e)
+                                          });
+                                  }
+                              }
+                    />
                 </div>) : (<div/>)}
 
             </div>
@@ -128,17 +194,23 @@ PostPage.propTypes = {
     displayCategory: PropTypes.bool
 };
 
-function mapStateToProps({posts}) {
+function mapStateToProps({posts, comments}) {
     return {
         posts: posts.posts,
-        commentsSortMode: posts.commentsSortMode
+        commentsSortMode: comments.sortMode,
+        comments: comments.comments
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         votePost: (id, votes) => dispatch(Actions.votePost(id, votes)),
-        updateComments: (comments, postId) => dispatch(Actions.updateComments(comments, postId))
+        voteComment: (id, votes, postId) => dispatch(Actions.voteComment(id, votes, postId)),
+        updateComments: (comments, postId) => dispatch(Actions.updateComments(comments, postId)),
+        sortComments: (sortMode) => dispatch(Actions.sortComments(sortMode)),
+        addPost: (post) => dispatch(Actions.addPost(post)),
+        deletePost: (id) => dispatch(Actions.deletePost(id)),
+        deleteComment: (id, parentId) => dispatch(Actions.deleteComment(id, parentId))
     }
 }
 

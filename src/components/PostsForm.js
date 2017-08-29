@@ -2,14 +2,24 @@ import React, { Component } from 'react';
 
 class PostsForm extends Component {
     render() {
-        const {category, categories, onSubmitForm} = this.props;
+        const {category, categories, onSubmitForm, initialData} = this.props;
 
         return (
             <div>
-                <form onSubmit={onSubmitForm}>
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+
+                    onSubmitForm({
+                        title: this.title.value,
+                        body: this.body.value,
+                        author: this.author.value || 'Anon',
+                        category: this.category.value
+                    })
+                }}>
                     <div className="form-group">
                         <label htmlFor="title">Title</label>
                         <input type="text" className="form-control" id="title" placeholder="Title"
+                               defaultValue={initialData && initialData.title ? initialData.title : ''}
                                required
                                ref={(title) => this.title = title}/>
                     </div>
@@ -17,12 +27,14 @@ class PostsForm extends Component {
                         <label htmlFor="body">Content</label>
                         <textarea type="text" className="form-control" id="body"
                                   placeholder="Content" rows={3}
+                                  defaultValue={initialData && initialData.body ? initialData.body : ''}
                                   required
-                                  ref={(content) => this.content = content}/>
+                                  ref={(body) => this.body = body}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="author">Author</label>
                         <input type="text" className="form-control" id="author" placeholder="Author"
+                               defaultValue={initialData && initialData.author ? initialData.author : ''}
                                ref={(author) => this.author = author}/>
                     </div>
                     <div className="form-group">

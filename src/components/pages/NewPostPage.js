@@ -8,27 +8,23 @@ import * as API from "../../utils/api";
 import * as UUIDV1 from 'uuid/v1';
 
 class NewPostPage extends Component {
-    submitForm = (e) => {
-        e.preventDefault();
-
+    submitForm = (data) => {
         /// TODO: add some error handling
         API.addPost({
             id: UUIDV1(),
             timestamp: new Date().getTime(),
-            title: this.title.value,
-            content: this.content.value,
-            author: this.author.value || 'Anon',
-            category: this.category.value
+            title: data.title,
+            body: data.body,
+            author: data.author,
+            category: data.category
         }).then((post) => {
             this.props.addPost(post);
-            this.props.postFormRedirect(true);
+            this.props.history.push(`/post/${post.id}`)
         });
     };
 
     constructor(props) {
         super(props);
-
-        this.props.postFormRedirect(false);
     }
 
     render() {
@@ -40,36 +36,19 @@ class NewPostPage extends Component {
                 <HeaderNav
                     title={category && category !== '' ? `New post for ${category}` : `New post`}/>
                 <div className="container mt-2">
-                    {
-                        (this.props.redirectPostsForm) ?
-                            (<div>
-                                    <span>Your post was added.</span>
-                                    <br/>
-                                    <a className="btn btn-primary" href="/">Finish</a>
-                                </div>
-                            ) :
-                            (<PostsForm category={category} categories={categories}
-                                        onSubmitForm={(e) => {
-                                            this.submitForm(e)
-                                        }}/>)
-                    }
+                    <PostsForm category={category} categories={categories}
+                               onSubmitForm={this.submitForm}
+                    />
                 </div>
             </div>
         );
     }
 }
 
-function mapStateToProps({posts}) {
-    return {
-        redirectPostsForm: posts.redirectPostsForm
-    }
-}
-
 function mapDispatchToProps(dispatch) {
     return {
-        addPost: (post) => dispatch(Actions.addPost(post)),
-        postFormRedirect: (enabled) => dispatch(Actions.postFormRedirect(enabled))
+        addPost: (post) => dispatch(Actions.addPost(post))
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewPostPage));
+export default withRouter(connect(null, mapDispatchToProps)(NewPostPage));

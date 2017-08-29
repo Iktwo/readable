@@ -5,6 +5,7 @@ import * as API from "../utils/api";
 import * as Actions from "../actions/index";
 import { connect } from "react-redux";
 import * as Constants from "../utils/constants";
+import SortOptions from './SortOptions';
 
 class Posts extends Component {
     static filterPosts(posts, displayDeleted) {
@@ -16,25 +17,13 @@ class Posts extends Component {
     }
 
     render() {
-        const {posts, displayDeleted, displayCategory, sortMode} = this.props;
+        const {posts, displayDeleted, displayCategory, sortMode, sortPosts} = this.props;
 
         return (
             <div className="mt-2">
-                <div>
-                    <h6>Sort by:</h6>
-                    <a href="#score" className="badge badge-primary mr-2" onClick={
-                        () => {
-                            this.props.sortPosts(Constants.SORT_BY_SCORE);
-                            return false
-                        }
-                    }>Score</a>
-                    <a href="#newest" className="badge badge-primary" onClick={
-                        () => {
-                            this.props.sortPosts(Constants.SORT_BY_NEWEST);
-                            return false
-                        }
-                    }>Newest</a>
-                </div>
+                <SortOptions sortContent={(sortBy) => {
+                    sortPosts(sortBy)
+                }}/>
 
                 <div className="list-group mt-2">
                     {

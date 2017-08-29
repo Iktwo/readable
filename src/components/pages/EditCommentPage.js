@@ -1,36 +1,25 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import HeaderNav from "../HeaderNav";
-import { connect } from 'react-redux';
-import { withRouter } from "react-router-dom";
+import {connect} from 'react-redux';
+import {withRouter} from "react-router-dom";
 import * as Actions from "../../actions";
+import * as API from "../../utils/api";
 
 class EditCommentPage extends Component {
-    // submitForm = (data) => {
-    //     const {id} = this.props.match.params;
-    //     const {posts} = this.props;
-    //
-    //     let post = posts.filter((p) => {
-    //         return p.id === id
-    //     });
-    //
-    //     if (post.length === 1) {
-    //         post = post[0];
-    //     } else {
-    //         post = null;
-    //     }
-    //
-    //     if (post) {
-    //         API.editPost(post.id, {
-    //             title: data.title,
-    //             body: data.body
-    //         }).then((post) => {
-    //             this.props.editPost(post);
-    //             this.props.history.push(`/post/${post.id}`)
-    //         }).catch((e) => {
-    //             console.error("Error editing post: ", e)
-    //         });
-    //     }
-    // };
+    componentDidMount() {
+        const {id} = this.props.match.params;
+
+        API.getComment(id).then(
+            (comment) => {
+                let comments = [];
+                comments.push(comment);
+
+                this.props.updateComments(comments, comment.parentId);
+            }
+        ).catch((e) => {
+            console.error("Error editing post: ", e)
+        })
+    }
 
     render() {
         const {id} = this.props.match.params;
@@ -40,7 +29,6 @@ class EditCommentPage extends Component {
 
         for (let k in comments) {
             if (comments.hasOwnProperty(k)) {
-                console.log("????", comments[k])
                 comment = comments[k].filter((c) => {
                     return c.id === id
                 });
@@ -53,8 +41,6 @@ class EditCommentPage extends Component {
             comment = null;
         }
 
-        console.log("??? comment:", comment)
-
         return (
             <div>
                 <HeaderNav title="Editing comment"/>
@@ -64,10 +50,19 @@ class EditCommentPage extends Component {
                         <form onSubmit={(e) => {
                             e.preventDefault();
 
-                            // onSubmitForm({
-                            //     body: this.body.value,
-                            //     author: this.author.value || 'Anon'
-                            // })
+                            API.editComment(comment.id, {
+                                body: this.body.value,
+                                timestamp: new Date().getTime()
+                            }).then((comment) => {
+                                let comments = [];
+                                comments.push(comment);
+
+                                this.props.updateComments(comments, comment.parentId);
+                                this.props.history.push(`/post/${comment.parentId}`)
+                            })
+                                .catch((e) => {
+                                    console.error("Error editing post: ", e)
+                                })
                         }}>
                             <div className="form-group">
                                 <label htmlFor="body">Content</label>
@@ -78,12 +73,9 @@ class EditCommentPage extends Component {
                                           ref={(body) => this.body = body}/>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="author">Author</label>
-                                <input type="text" className="form-control" id="author" placeholder="Author"
-                                       defaultValue={comment.author}
-                                       ref={(author) => this.author = author}/>
+                                <span>By {comment.author}</span>
                             </div>
-                            <button type="submit" className="btn btn-primary">Add comment</button>
+                            <button type="submit" className="btn btn-primary">Edit comment</button>
                         </form>
                     </div>
                 ) : (<div/>)}
@@ -101,6 +93,7 @@ function mapStateToProps({comments}) {
 function mapDispatchToProps(dispatch) {
     return {
         editComment: (comment) => dispatch(Actions.editComment(comment)),
+        updateComments: (comments) => dispatch(Actions.updateComments(comments))
     }
 }
 

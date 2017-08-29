@@ -15,7 +15,7 @@ class EditPostPage extends Component {
             return p.id === id
         });
 
-        if (post.length === 1) {
+        if (post.length) {
             post = post[0];
         } else {
             post = null;
@@ -27,7 +27,7 @@ class EditPostPage extends Component {
                 body: data.body
             }).then((post) => {
                 this.props.editPost(post);
-                this.props.history.push(`/post/${post.id}`)
+                this.props.history.push(`/${post.category}/${post.id}`)
             }).catch((e) => {
                 console.error("Error editing post: ", e)
             });

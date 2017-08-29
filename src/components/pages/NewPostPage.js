@@ -19,7 +19,7 @@ class NewPostPage extends Component {
             category: data.category
         }).then((post) => {
             this.props.addPost(post);
-            this.props.history.push(`/post/${post.id}`)
+            this.props.history.push(`/${post.category}/${post.id}`)
         });
     };
 

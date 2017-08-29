@@ -31,21 +31,6 @@ class App extends Component {
                     )}
                     />
 
-                    <Route exact path="/r" render={() => (
-                        <Redirect to="/"/>
-                    )}
-                    />
-
-                    <Route exact path="/r/:category" render={() => (
-                        <CategoryPage posts={this.props.posts}/>
-                    )}
-                    />
-
-                    <Route exact path="/post/:id" component={() => (
-                        <PostPage/>
-                    )}
-                    />
-
                     <Route exact path="/editpost/:id" component={() => (
                         <EditPostPage/>
                     )}
@@ -63,6 +48,16 @@ class App extends Component {
 
                     <Route exact path="/newpost/:category" render={(props) => (
                         <NewPostPage categories={this.props.categories} location={props.location}/>
+                    )}
+                    />
+
+                    <Route exact path="/:category" render={() => (
+                        <CategoryPage posts={this.props.posts}/>
+                    )}
+                    />
+
+                    <Route exact path="/:category/:id" component={() => (
+                        <PostPage/>
                     )}
                     />
 

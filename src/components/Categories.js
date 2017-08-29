@@ -16,7 +16,7 @@ class Categories extends Component {
                 (<div key={i} className="w-100 hidden-xs-down hidden-md-up"/>) :
 
                 (<div className="card mb-4" key={i}>
-                    <a style={{...Styles.mainText}} key={data.name + data.path} href={`/r/${data.path}`}>
+                    <a style={{...Styles.mainText}} key={data.name + data.path} href={`/${data.path}`}>
                         <img className="card-img-top" src={`https://iktwo.com/images/${data.name}.jpg`}
                              alt="Category icon"/>
                         <div className="card-body">

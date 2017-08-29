@@ -66,7 +66,7 @@ class PostPage extends Component {
                 <HeaderNav
                     title={post && !post.deleted ? `${post.category}` : `Could not find post`}/>
 
-                {post ? (<div className="container mt-2 ">
+                {post && !post.deleted ? (<div className="container mt-2 ">
 
                     <div className="row">
                         <div className="col-sm-4 col-md-2 d-flex flex-column text-truncate align-self-center">
@@ -123,7 +123,7 @@ class PostPage extends Component {
                         <a className="btn btn-danger ml-2" href={`#delete`} onClick={() => {
                             API.deletePost(post.id).then(() => {
                                 this.props.deletePost(post.id);
-                                this.props.history.push(`/r/${post.category}`)
+                                this.props.history.push(`/${post.category}`)
                             });
 
                             return false;

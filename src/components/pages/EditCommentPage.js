@@ -58,7 +58,7 @@ class EditCommentPage extends Component {
                                 comments.push(comment);
 
                                 this.props.updateComments(comments, comment.parentId);
-                                this.props.history.push(`/post/${comment.parentId}`)
+                                this.props.history.push(`/`)
                             })
                                 .catch((e) => {
                                     console.error("Error editing post: ", e)
